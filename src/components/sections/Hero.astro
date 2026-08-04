@@ -1,0 +1,352 @@
+<div id="container">
+  <main>
+    <section id="hero">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+
+      <div class="content">
+        <span class="greeting"><span class="wave">👋</span> Halo, Dunia!</span>
+        <h1>Rafi Romolo,<br /><span class="highlight">Web Developer</span></h1>
+        <p class="role">Membangun web yang simpel, cepat, dan enak dipakai</p>
+        <p class="bio">
+          Web Developer — Frontend & Backend. Berbasis di Bekasi, Indonesia.
+          Saya membangun produk digital yang nyaman dipakai: clean, intuitif,
+          dan fungsional.
+        </p>
+
+        <div class="cta-row">
+          <a href="#project" class="btn-primary">Lihat Project Saya →</a>
+          <a href="#kontak" class="btn-secondary">Hubungi Saya</a>
+        </div>
+
+        <div class="stats">
+          <div>
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Project Selesai</div>
+          </div>
+          <div>
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Project Selesai</div>
+          </div>
+          <div>
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Project Selesai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-wrap">
+        <div class="photo-blob-bg"></div>
+        <div class="photo-frame">
+          <img src="https://i.pravatar.cc/400?img=13" alt="Foto profil dummy" />
+        </div>
+        <div class="badge-available">
+          <span class="dot"></span>
+          Available for work
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<style>
+  :root {
+    --color-bg: #fdfaff;
+    --color-text: #1e1b2e;
+    --color-muted: #6e6b80;
+    --grad-1: #7c3aed;
+    --grad-2: #ec4899;
+    --grad-3: #fb923c;
+    --gradient: linear-gradient(
+      115deg,
+      var(--grad-1) 0%,
+      var(--grad-2) 55%,
+      var(--grad-3) 100%
+    );
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: "Inter", sans-serif;
+  }
+
+  #hero {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 6rem 5rem 5rem;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.35;
+    z-index: 0;
+  }
+
+  .blob-1 {
+    width: 320px;
+    height: 320px;
+    background: var(--grad-2);
+    top: -80px;
+    right: -60px;
+  }
+
+  .blob-2 {
+    width: 260px;
+    height: 260px;
+    background: var(--grad-3);
+    bottom: -60px;
+    left: -60px;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--grad-2);
+    background: linear-gradient(
+      90deg,
+      rgba(124, 58, 237, 0.1),
+      rgba(236, 72, 153, 0.1)
+    );
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  .wave {
+    display: inline-block;
+    animation: wave 1.8s infinite;
+    transform-origin: 70% 70%;
+  }
+
+  @keyframes wave {
+    0%,
+    60%,
+    100% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(14deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    30% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-4deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+  }
+
+  h1 {
+    font-family: "Sora", sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.1;
+    margin: 0 0 1rem;
+  }
+
+  .highlight {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .role {
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .bio {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    max-width: 46ch;
+    margin: 0 0 2rem;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gradient);
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 10px 25px -8px rgba(236, 72, 153, 0.5);
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    border: 1.5px solid rgba(30, 27, 46, 0.15);
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--grad-2);
+    color: var(--grad-2);
+  }
+
+  .stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat-num {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .photo-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .photo-blob-bg {
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    background: var(--gradient);
+    border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+    animation: morph 8s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  @keyframes morph {
+    0%,
+    100% {
+      border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%;
+    }
+    50% {
+      border-radius: 58% 42% 35% 65% / 55% 60% 40% 45%;
+    }
+  }
+
+  .photo-frame {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid var(--color-bg);
+    box-shadow: 0 20px 45px -15px rgba(124, 58, 237, 0.4);
+    z-index: 1;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .badge-available {
+    position: absolute;
+    bottom: 18px;
+    right: 4%;
+    background: white;
+    border-radius: 999px;
+    padding: 0.5rem 1rem 0.5rem 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px -10px rgba(30, 27, 46, 0.25);
+    z-index: 2;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  }
+
+  @media (max-width: 800px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+    }
+    .bio {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-row,
+    .stats {
+      justify-content: center;
+    }
+    .photo-wrap {
+      order: -1;
+    }
+  }
+</style>
