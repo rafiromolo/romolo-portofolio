@@ -8,6 +8,9 @@
     --grad-2: #ec4899;
     --grad-3: #fb923c;
     --gradient: linear-gradient(115deg, var(--grad-1) 0%, var(--grad-2) 55%, var(--grad-3) 100%);
+
+    --font-display: 'Sora', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
 }
 
 * {
