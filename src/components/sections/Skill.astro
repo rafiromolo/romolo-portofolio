@@ -1,51 +1,67 @@
 <div id="container">
-    <main>
-        <section id="skill">
-            <h2>Skill &amp; Spesialisasi</h2>
-            <div class="skill-grid">
-                <div class="card">
-                    <h3>Bahasa &amp; Framework</h3>
-                    <div>
-                        <span class="tag">React</span>
-                        <span class="tag">Vue</span>
-                        <span class="tag">Astro</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Tools</h3>
-                    <div>
-                        <span class="tag">GitHub</span>
-                        <span class="tag">VS Code</span>
-                        <span class="tag">npm</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Sedang Dipelajari</h3>
-                    <div>
-                        <span class="tag">Next</span>
-                        <span class="tag">Svelte</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+  <main>
+    <section id="skill">
+      <h2>Skill &amp; Spesialisasi</h2>
+      <div class="skill-grid">
+        <div class="card">
+          <h3>Bahasa &amp; Framework</h3>
+          <div class="tag-container">
+            <span class="tag"
+              ><span class="skill-icons--react-light"></span>React</span
+            >
+            <span class="tag"
+              ><span class="skill-icons--vuejs-light"></span>Vue</span
+            >
+            <span class="tag"
+              ><span class="skill-icons--astro"></span>Astro</span
+            >
+          </div>
+        </div>
+        <div class="card">
+          <h3>Tools</h3>
+          <div class="tag-container">
+            <span class="tag"
+              ><span class="skill-icons--github-light"></span>GitHub</span
+            >
+            <span class="tag"
+              ><span class="skill-icons--vscode-light"></span>VS Code</span
+            >
+            <span class="tag"
+              ><span class="logos--tableau-icon"></span>Tableau</span
+            >
+          </div>
+        </div>
+        <div class="card">
+          <h3>Sedang Dipelajari</h3>
+          <div class="tag-container">
+            <span class="tag"
+              ><span class="skill-icons--nextjs-light"></span>Next</span
+            >
+            <span class="tag"
+              ><span class="skill-icons--svelte"></span>Svelte</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
 <style>
-    #skill {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .skill-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-        margin-top: 2rem;
-    }
+  #skill {
+    position: relative;
+    overflow: hidden;
+  }
 
-    .skill-grid h3 {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-    }
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .skill-grid h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
 </style>
