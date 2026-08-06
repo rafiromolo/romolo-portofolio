@@ -2,6 +2,58 @@
   <main>
     <section id="project">
       <h2>Project Terbaru</h2>
+      <div class="project-grid">
+        <article class="card">
+          <h3>Dashboard Analisis Data pada Dataset Amazon Bookstore</h3>
+          <p>Dashboard analisis data Amazon Bookstore menggunakan Tableau.</p>
+          <div class="tag-container">
+            <span class="tag">Tableau</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank" rel="noopener">Lihat Live &rarr;</a>
+            <a href="#" target="_blank" rel="noopener">Repo &rarr;</a>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Analisis Data pada Data Bike Sharing</h3>
+          <p>Analisis data menggunakan Python dengan library matplotlib dan seaborn, dan menggunakan Streamlit sebagai dashboard.</p>
+          <div class="tag-container">
+            <span class="tag">Python</span>
+            <span class="tag">Seaborn</span>
+            <span class="tag">Streamlit</span>
+          </div>
+          <div class="links">
+            <a href="#" target="_blank" rel="noopener">Lihat Live &rarr;</a>
+            <a href="#" target="_blank" rel="noopener">Repo &rarr;</a>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 </div>
+
+<style>
+  #project {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .project-grid p {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+</style>
