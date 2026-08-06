@@ -1,12 +1,12 @@
 :root {
-    --color-bg: #fdfaff;
+    --color-bg: #f7faff;
     --color-surface: #ffffff;
     --color-text: #1e1b2e;
     --color-muted: #6e6b80;
     --color-border: rgba(30, 27, 46, 0.1);
-    --grad-1: #7c3aed;
-    --grad-2: #ec4899;
-    --grad-3: #fb923c;
+    --grad-1: #0f2f6b;
+    --grad-2: #2563eb;
+    --grad-3: #7dd3fc;
     --gradient: linear-gradient(115deg, var(--grad-1) 0%, var(--grad-2) 55%, var(--grad-3) 100%);
 
     --font-display: 'Sora', 'Segoe UI', sans-serif;
