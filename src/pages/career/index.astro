@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { careerHistory } from "../../data/career";
+---
+
+<Layout>
+  <section id="career-detail">
+    <a href="/#karir" class="back-link">&larr; Kembali ke Homepage</a>
+
+    <p class="eyebrow">Pengalaman</p>
+    <h1>Perjalanan Karir</h1>
+    <p class="intro">
+      Rangkuman lengkap pengalaman kerja saya, dari awal karir sampai posisi
+      saat ini.
+    </p>
+
+    <ol class="timeline">
+      {
+        careerHistory.map((entry) => (
+          <li class="timeline-item">
+            <div class="marker">
+              <span
+                class:list={["dot", { current: entry.isCurrent }]}
+                aria-hidden="true"
+              />
+            </div>
+            <div
+              class:list={[
+                "card",
+                "entry-card",
+                { "entry-card--current": entry.isCurrent },
+              ]}
+            >
+              <div class="entry-head">
+                <h2>{entry.role}</h2>
+                {entry.isCurrent && <span class="badge-current">Saat ini</span>}
+              </div>
+              <p class="company">{entry.company}</p>
+              <p class="period">{entry.period}</p>
+              <p class="summary">{entry.summary}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .eyebrow {
+    margin-top: 0 0 0.4rem;
+  }
+</style>
