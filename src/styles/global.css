@@ -303,6 +303,19 @@ h2 {
     margin: 0 0.4rem 0.4rem 0;
 }
 
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 0.4rem;
+}
+
 /* =========================================================
    FOOTER
    ========================================================= */
