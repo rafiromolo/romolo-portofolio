@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { careerHistory } from "../../data/career";
 ---
 
-<Layout>
+<Layout title="Perjalanan Karir - Rafi Romolo">
   <section id="career-detail">
     <a href="/#karir" class="back-link">&larr; Kembali ke Homepage</a>
 
@@ -38,6 +38,14 @@ import { careerHistory } from "../../data/career";
               <p class="company">{entry.company}</p>
               <p class="period">{entry.period}</p>
               <p class="summary">{entry.summary}</p>
+
+              {entry.details && entry.details.length > 0 && (
+                <ul class="details">
+                  {entry.details.map((detail) => (
+                    <li>{detail}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           </li>
         ))
@@ -60,5 +68,39 @@ import { careerHistory } from "../../data/career";
 
   .eyebrow {
     margin-top: 0 0 0.4rem;
+  }
+
+  .intro {
+    color: var(--color-muted);
+    max-width: 60ch;
+    margin: 0 0 3rem;
+  }
+
+  .company {
+    font-weight: 600;
+    margin: 0.35rem 0 0.15rem;
+  }
+
+  .period {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+  }
+
+  .summary {
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+  }
+
+  .details {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: var(--color-muted);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .details li::marker {
+    color: var(--grad-2);
   }
 </style>

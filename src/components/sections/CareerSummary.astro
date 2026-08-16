@@ -7,11 +7,15 @@
           <p class="eyebrow">Pengalaman</p>
           <h2>Perjalanan Karir</h2>
         </div>
-        <a class="view-all" href="/career"> Lihat Semua <span aria-hidden="true">&rarr;</span> </a>
+        <a class="view-all" href="/career">
+          Lihat Semua <span aria-hidden="true">&rarr;</span>
+        </a>
       </div>
       <ol class="timeline">
         <li class="timeline-item">
-          <div class="marker"><span class="dot current" aria-hidden="true"></span></div>
+          <div class="marker">
+            <span class="dot current" aria-hidden="true"></span>
+          </div>
           <div class="card entry-card entry-card--current">
             <div class="entry-head">
               <h3>Digitalisasi Finance Accounting</h3>
@@ -20,8 +24,9 @@
             <p class="company">PT Mekar Armada Jaya</p>
             <p class="period">Sep 2024 - sekarang</p>
             <p class="summary">
-              Membangun dan memelihara aplikasi web dari sisi frontend hingga sedikit backend, fokus
-              pada pengalaman pengguna yang clean dan performa yang cepat.
+              Membangun dan memelihara aplikasi web dari sisi frontend hingga
+              sedikit backend, fokus pada pengalaman pengguna yang clean dan
+              performa yang cepat.
             </p>
           </div>
         </li>
@@ -29,12 +34,12 @@
           <div class="marker"><span class="dot" aria-hidden="true"></span></div>
           <div class="card entry-card">
             <div class="entry-head"><h3>IT</h3></div>
-              <p class="company">CV Prima Print</p>
-              <p class="period">Apr 2024 - Jul 2024</p>
-              <p class="summary">
-                Deskripsi singkat pengalaman kerja sebelumnya dan hal relevan yang kamu kerjakan di
-                sana.
-              </p>
+            <p class="company">CV Prima Print</p>
+            <p class="period">Apr 2024 - Jul 2024</p>
+            <p class="summary">
+              Deskripsi singkat pengalaman kerja sebelumnya dan hal relevan yang
+              kamu kerjakan di sana.
+            </p>
           </div>
         </li>
       </ol>
@@ -43,156 +48,69 @@
 </div>
 
 <style>
-#karir {
-  position: relative;
-  overflow: hidden;
-}
-
-.blob {
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  background: var(--gradient);
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.15;
-  top: -10%;
-  left: -10%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.karir-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.karir-heading .eyebrow {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin: 0 0 0.4rem;
-}
-
-.karir-heading .view-all {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--color-text);
-  white-space: nowrap;
-  padding-bottom: 0.3rem;
-}
-
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.timeline-item {
-  display: grid;
-  grid-template-columns: 2rem 1fr;
-  gap: 1.25rem;
-  position: relative;
-  padding-bottom: 2rem;
-}
-
-.timeline-item:last-child {
-  padding-bottom: 0;
-}
-
-.marker {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.marker::before {
-  content: '';
-  position: absolute;
-  top: 1.6rem;
-  bottom: -2rem;
-  width: 2px;
-  background: var(--color-border);
-}
-
-.timeline-item:last-child .marker::before {
-  display: none;
-}
-
-.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--color-border);
-  margin-top: 0.4rem;
-  z-index: 1;
-  box-shadow: 0 0 0 4px var(--color-bg);
-}
-
-.dot.current {
-  background: var(--gradient);
-  box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 6px rgba(236, 72, 153, 0.25);
-}
-
-.entry-card {
-  padding: 1.25rem 1.5rem;
-}
-
-.entry-card--current {
-  border: 1.5px solid transparent;
-  background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box, var(--gradient) border-box;
-  box-shadow: 0 15px 35px -18px rgba(236, 72, 153, 0.45); 
-}
-
-.entry-head {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-}
-
-.entry-head h3 {
-  font-size: 1.1rem;
-  margin: 0;
-}
-
-#karir .badge-current {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: var(--gradient);
-  color: white;
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
-}
-
-.company {
-  font-weight: 600;
-  margin: 0.3rem 0 0.15rem;
-}
-
-.summary {
-  color: var(--color-muted);
-  margin: 0;
-}
-
-@media (max-width: 600px) {
-  .timeline-item {
-    grid-template-columns: 1.5rem 1fr;
-    gap: 0.85rem;
+  #karir {
+    position: relative;
+    overflow: hidden;
   }
-}
+
+  .blob {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    background: var(--gradient);
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.15;
+    top: -10%;
+    left: -10%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .karir-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .karir-heading .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0 0 0.4rem;
+  }
+
+  .karir-heading .view-all {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    padding-bottom: 0.3rem;
+  }
+
+  .company {
+    font-weight: 600;
+    margin: 0.3rem 0 0.15rem;
+  }
+
+  .summary {
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    .timeline-item {
+      grid-template-columns: 1.5rem 1fr;
+      gap: 0.85rem;
+    }
+  }
 </style>
