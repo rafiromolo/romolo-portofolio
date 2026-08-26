@@ -1,0 +1,115 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getAllPosts } from "../../lib/sanity";
+
+const posts = await getAllPosts();
+---
+
+<Layout title="Blog - Rafi Romolo">
+  <section>
+    <h1>Blog</h1>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li class="card">
+            {post.coverImageUrl && (
+              <a href={`/blog/${post.slug}`} class="post-thumb">
+                <img
+                  src={post.coverImageUrl}
+                  alt={`Sampul ${post.title}`}
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <div class="post-body">
+              <a href={`/blog/${post.slug}`}>
+                <h2>{post.title}</h2>
+              </a>
+              <p class="date">
+                {new Date(post.publishedAt).toLocaleDateString("id-ID", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p>{post.excerpt}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      posts.length === 0 && (
+        <p class="empty-state">
+          Belum ada artikel. Tulis dan publish artikel pertama kamu lewat
+          <a href="https://www.sanity.io/manage" target="_blank" rel="noopener">
+            Sanity Studio
+          </a>
+          , atau pastikan <code>PUBLIC_SANITY_PROJECT_ID</code> sudah diisi di
+          file <code>.env</code>.
+        </p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .post-list .card {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .post-thumb {
+    flex-shrink: 0;
+    width: 140px;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    display: block;
+  }
+
+  .post-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-body h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .post-body a {
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .date {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    margin: 0.2rem 0 0.6rem;
+  }
+
+  .empty-state {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 480px) {
+    .post-list .card {
+      flex-direction: column;
+    }
+    .post-thumb {
+      width: 100%;
+    }
+  }
+</style>

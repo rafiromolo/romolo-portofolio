@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getAllPosts, getPostBySlug } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await getPostBySlug(slug!);
+
+if (!post) {
+  return Astro.redirect("/blog");
+}
+
+const bodyHtml = post.body ? toHTML(post.body as any) : "";
+---
+
+<Layout title={`${post.title} - Blog`}>
+  <article>
+    {
+      post.coverImageUrl && (
+        <div class="cover-image">
+          <img src={post.coverImageUrl} alt={`Sampul ${post.title}`} />
+        </div>
+      )
+    }
+
+    <h1>{post.title}</h1>
+  </article>
+</Layout>

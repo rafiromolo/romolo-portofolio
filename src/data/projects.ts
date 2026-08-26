@@ -2,10 +2,13 @@ export type ProjectEntry = {
     slug: string;
     title: string;
     description: string;
-    image: string;
+    fullDescription?: string;
+    role?: string;
+    image: string; // thumbnail utama untuk card & header halaman detail
     tags: string[];
     liveLink?: string;
     repoLink?: string;
+    gallery?: string[];
 }
 
 export const projects: ProjectEntry[] = [
@@ -18,6 +21,11 @@ export const projects: ProjectEntry[] = [
     tags: ["Tableau"],
     liveLink: "#",
     repoLink: "#",
+    gallery: [
+      "https://picsum.photos/seed/project-1-a/600/400",
+      "https://picsum.photos/seed/project-1-b/600/400",
+      "https://picsum.photos/seed/project-1-c/600/400",
+    ],
   },
   {
     slug: "analisis-data-bike-sharing",
@@ -28,6 +36,11 @@ export const projects: ProjectEntry[] = [
     tags: ["Python", "Seaborn", "Streamlit"],
     liveLink: "#",
     repoLink: "#",
+    gallery: [
+      "https://picsum.photos/seed/project-1-a/600/400",
+      "https://picsum.photos/seed/project-1-b/600/400",
+      "https://picsum.photos/seed/project-1-c/600/400",
+    ],
   },
   {
     slug: "klasifikasi-gambar-batu-kertas-gunting",
