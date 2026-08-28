@@ -1,35 +1,48 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { projects } from "../../data/projects";
+import { getAllProjects, getProjectBySlug } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
 
 export async function getStaticPaths() {
+  const projects = await getAllProjects();
   return projects.map((project) => ({
     params: { slug: project.slug },
-    props: { project },
   }));
 }
 
-const { project } = Astro.props;
+const { slug } = Astro.params;
+const project = await getProjectBySlug(slug!);
+
+if (!project) {
+  return Astro.redirect("/blog");
+}
+
+const bodyHtml = project.body ? toHTML(project.body as any) : "";
 ---
 
-<Layout
-  title={`${project.title} - Rafi Romolo`}
-  description={project.description}
->
+<Layout title={`${project.title} - Rafi Romolo`}>
   <section id="project-detail">
     <p class="eyebrow">Project</p>
     <h1>{project.title}</h1>
 
     <div class="tech-row">
-      {project.tags.map((tech) => <span class="tag">{tech}</span>)}
+      {project.tech.map((tech) => <span class="tag">{tech}</span>)}
     </div>
+
+    {
+      project.coverImageUrl && (
+        <div class="cover-image">
+          <img src={project.coverImageUrl} alt="" />
+        </div>
+      )
+    }
 
     <div class="links">
       {
-        project.liveLink && (
+        project.liveUrl && (
           <a
             class="btn-primary"
-            href={project.liveLink}
+            href={project.liveUrl}
             target="_blank"
             rel="noopener"
           >
@@ -37,11 +50,12 @@ const { project } = Astro.props;
           </a>
         )
       }
+
       {
-        project.repoLink && (
+        project.githubUrl && (
           <a
             class="btn-secondary"
-            href={project.repoLink}
+            href={project.githubUrl}
             target="_blank"
             rel="noopener"
           >
@@ -53,10 +67,10 @@ const { project } = Astro.props;
 
     <div class="detail-body">
       <h2>Tentang Project Ini</h2>
-      <p>{project.description}</p>
+      <div class="content" set:html={bodyHtml} />
     </div>
 
-    {
+    <!-- {
       project.gallery && project.gallery.length >= 0 && (
         <div class="gallery">
           <h2>Galeri</h2>
@@ -73,13 +87,25 @@ const { project } = Astro.props;
           </div>
         </div>
       )
-    }
+    } -->
   </section>
 </Layout>
 
 <style>
   h1 {
     font-size: 2.5rem;
+  }
+
+  .cover-image {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 45px -20px rgba(15, 47, 107, 0.3);
+  }
+
+  .cover-image img {
+    width: 100%;
+    display: block;
   }
 
   .tech-row {
