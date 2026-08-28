@@ -15,6 +15,7 @@ export const sanityClient: SanityClient | null = projectId
     })
   : null;
 
+/* SANITY STUDO: BLOGS */
 export type SanityPost = {
   _id: string;
   title: string;
@@ -52,6 +53,57 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
   return sanityClient.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       ${POST_LIST_FIELDS},
+      body
+    }`,
+    { slug }
+  );
+}
+
+/* SANITY STUDIO: PROJECTS */
+export type SanityProject = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  coverImageUrl: string | null;
+  tech: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  body?: unknown[];
+  publishedAt: string;
+};
+
+const PROJECT_LIST_FIELDS = `
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  "coverImageUrl": coverImage.asset->url,
+  tech,
+  githubUrl,
+  liveUrl,
+  body,
+  publishedAt
+`;
+
+export async function getAllProjects(): Promise<SanityProject[]> {
+  if (!sanityClient) return [];
+
+  return sanityClient.fetch(
+    `*[_type == "project" && defined(slug.current)] | order(_createdAt desc) {
+      ${PROJECT_LIST_FIELDS}
+    }`
+  );
+}
+
+export async function getProjectBySlug(
+  slug: string
+): Promise<SanityProject | null> {
+  if (!sanityClient) return null;
+
+  return sanityClient.fetch(
+    `*[_type == "project" && slug.current == $slug][0] {
+      ${PROJECT_LIST_FIELDS},
       body
     }`,
     { slug }
