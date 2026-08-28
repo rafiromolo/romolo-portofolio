@@ -21,15 +21,101 @@ const bodyHtml = post.body ? toHTML(post.body as any) : "";
 ---
 
 <Layout title={`${post.title} - Blog`}>
-  <article>
-    {
-      post.coverImageUrl && (
-        <div class="cover-image">
-          <img src={post.coverImageUrl} alt={`Sampul ${post.title}`} />
-        </div>
-      )
-    }
+  <section>
+    <article>
+      <a href="/blog" class="back-link">&larr; Kembali ke Blog</a>
 
-    <h1>{post.title}</h1>
-  </article>
+      {
+        post.coverImageUrl && (
+          <div class="cover-image">
+            <img src={post.coverImageUrl} alt={`Sampul ${post.title}`} />
+          </div>
+        )
+      }
+
+      <h1>{post.title}</h1>
+      <p class="date">
+        {
+          new Date(post.publishedAt).toLocaleDateString("id-ID", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </p>
+
+      {
+        post.tags && post.tags.length > 0 && (
+          <div class="tags-row">
+            {post.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="content" set:html={bodyHtml} />
+    </article>
+  </section>
 </Layout>
+
+<style is:global>
+  section {
+    padding: 2rem 5rem 5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .cover-image {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 45px -20px rgba(15, 47, 107, 0.3);
+  }
+
+  .cover-image img {
+    width: 100%;
+    display: block;
+  }
+
+  .date {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    margin-top: -0.3rem;
+  }
+
+  .tags-row {
+    margin-top: 1rem;
+  }
+
+  .content {
+    margin-top: 2rem;
+    max-width: 68ch;
+    color: var(--color-text);
+  }
+
+  .content p {
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+  }
+
+  .content h2,
+  .content h3 {
+    margin-top: 2rem;
+  }
+
+  .content img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .content a {
+    text-decoration: underline;
+  }
+</style>
