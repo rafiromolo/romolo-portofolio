@@ -20,7 +20,9 @@ const projects = await getAllProjects();
           <article class="card">
             <img src={project.coverImageUrl} alt="" class="card-img" />
             <h3>
-              <a href={`/projects/${project.slug}`}>{project.title}</a>
+              <a class="project-title" href={`/projects/${project.slug}`}>
+                {project.title}
+              </a>
             </h3>
             <p>{project.excerpt}</p>
             <div class="tag-container">
@@ -29,10 +31,20 @@ const projects = await getAllProjects();
               ))}
             </div>
             <div class="links">
-              <a href={project.liveUrl} target="_blank" rel="noopener">
+              <a
+                class="btn-primary"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener"
+              >
                 Lihat Live &rarr;
               </a>
-              <a href={project.githubUrl} target="_blank" rel="noopener">
+              <a
+                class="btn-secondary"
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener"
+              >
                 Repo &rarr;
               </a>
             </div>
@@ -52,5 +64,28 @@ const projects = await getAllProjects();
     color: var(--color-muted);
     /* max-width: 60ch; */
     margin: 0 0 3rem;
+  }
+
+  .card a {
+    text-decoration: none;
+  }
+
+  .project-title {
+    color: var(--color-text);
+  }
+
+  .project-title:hover {
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.4rem 1rem;
   }
 </style>
