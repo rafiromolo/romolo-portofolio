@@ -1,5 +1,8 @@
 ---
 import { latestProject } from "../../data/projects";
+import { getAllProjects } from "../../lib/sanity";
+
+const projects = await getAllProjects();
 ---
 
 <div id="container">
@@ -8,10 +11,10 @@ import { latestProject } from "../../data/projects";
       <h2>Project Terbaru</h2>
       <div class="project-grid">
         {
-          latestProject.map((project) => (
+          projects.map((project) => (
             <article class="card">
               <a href={`/projects/${project.slug}`}>
-                <img src={project.image} alt="" class="card-img" />
+                <img src={project.coverImageUrl} alt="" class="card-img" />
               </a>
               <div class="project-body">
                 <h3>
@@ -19,21 +22,21 @@ import { latestProject } from "../../data/projects";
                     {project.title}
                   </a>
                 </h3>
-                <p>{project.description}</p>
+                <p>{project.excerpt}</p>
                 <div class="tag-container">
-                  {project.tags.map((tag) => (
+                  {project.tech.map((tag) => (
                     <span class="tag">{tag}</span>
                   ))}
                 </div>
                 <div class="links">
                   <a href={`/projects/${project.slug}`}>Lihat Detail &rarr;</a>
-                  {project.liveLink && (
-                    <a href={project.liveLink} target="_blank" rel="noopener">
+                  {project.liveUrl && (
+                    <a href={project.liveUrl} target="_blank" rel="noopener">
                       Live &rarr;
                     </a>
                   )}
-                  {project.repoLink && (
-                    <a href={project.repoLink} target="_blank" rel="noopener">
+                  {project.githubUrl && (
+                    <a href={project.githubUrl} target="_blank" rel="noopener">
                       Repo &rarr;
                     </a>
                   )}
