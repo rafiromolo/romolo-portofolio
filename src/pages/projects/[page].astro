@@ -1,0 +1,142 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import { getAllProjects } from "../../lib/sanity";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const projects = await getAllProjects();
+  return paginate(projects, { pageSize: 8 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout title="Projects - Rafi Romolo">
+  <section id="project">
+    <h1>Projects</h1>
+    <p class="intro">
+      Daftar lengkap project yang pernah saya kerjakan, baik itu project pribadi
+      maupun project untuk klien. Setiap project memiliki deskripsi singkat,
+      teknologi yang digunakan, serta link ke versi live dan repositori kode.
+    </p>
+
+    <div class="project-grid">
+      {
+        page.data.map((project) => (
+          <article class="card">
+            <img src={project.coverImageUrl} alt="" class="card-img" />
+            <h3>
+              <a class="project-title" href={`/projects/${project.slug}`}>
+                {project.title}
+              </a>
+            </h3>
+            <p>{project.excerpt}</p>
+            <div class="tag-container">
+              {project.tech.map((tech) => (
+                <span class="tag">{tech}</span>
+              ))}
+            </div>
+            <div class="links">
+              <a
+                class="btn-primary"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener"
+              >
+                Lihat Live &rarr;
+              </a>
+              <a
+                class="btn-secondary"
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener"
+              >
+                Repo &rarr;
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <nav class="pagination" aria-label="Navigasi halaman">
+      {
+        page.url.prev ? (
+          <a href={page.url.prev}>&larr; Sebelumnya</a>
+        ) : (
+          <span class="disabled">&larr; Sebelumnya</span>
+        )
+      }
+
+      <span class="page-info"
+        >Halaman {page.currentPage} dari {page.lastPage}</span
+      >
+
+      {
+        page.url.next ? (
+          <a href={page.url.next}>Selanjutnya &rarr;</a>
+        ) : (
+          <span class="disabled">Selanjutnya &rarr;</span>
+        )
+      }
+    </nav>
+  </section>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .intro {
+    color: var(--color-muted);
+    /* max-width: 60ch; */
+    margin: 0 0 3rem;
+  }
+
+  .card a {
+    text-decoration: none;
+  }
+
+  .project-title {
+    color: var(--color-text);
+  }
+
+  .project-title:hover {
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.4rem 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .pagination a {
+    font-weight: 600;
+  }
+
+  .pagination .disabled {
+    color: var(--color-muted);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .page-info {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+</style>
