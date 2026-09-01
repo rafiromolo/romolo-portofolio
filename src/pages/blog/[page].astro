@@ -1,8 +1,14 @@
 ---
+import type { GetStaticPaths } from "astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPosts } from "../../lib/sanity";
 
-const posts = await getAllPosts();
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getAllPosts();
+  return paginate(posts, { pageSize: 8 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
 ---
 
 <Layout title="Blog - Rafi Romolo">
@@ -10,7 +16,7 @@ const posts = await getAllPosts();
     <h1>Blog</h1>
     <ul class="post-list">
       {
-        posts.map((post) => (
+        page.data.map((post) => (
           <li class="card">
             {post.coverImageUrl && (
               <a href={`/blog/${post.slug}`} class="post-thumb">
@@ -38,8 +44,31 @@ const posts = await getAllPosts();
         ))
       }
     </ul>
+
+    <nav class="pagination" aria-label="Navigasi halaman">
+      {
+        page.url.prev ? (
+          <a href={page.url.prev}>&larr; Sebelumnya</a>
+        ) : (
+          <span class="disabled">&larr; Sebelumnya</span>
+        )
+      }
+
+      <span class="page-info"
+        >Halaman {page.currentPage} dari {page.lastPage}</span
+      >
+
+      {
+        page.url.next ? (
+          <a href={page.url.next}>Selanjutnya &rarr;</a>
+        ) : (
+          <span class="disabled">Selanjutnya &rarr;</span>
+        )
+      }
+    </nav>
+
     {
-      posts.length === 0 && (
+      page.size === 0 && (
         <p class="empty-state">
           Belum ada artikel. Tulis dan publish artikel pertama kamu lewat
           <a href="https://www.sanity.io/manage" target="_blank" rel="noopener">
@@ -102,6 +131,29 @@ const posts = await getAllPosts();
 
   .empty-state {
     color: var(--color-text-muted);
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .pagination a {
+    font-weight: 600;
+  }
+
+  .pagination .disabled {
+    color: var(--color-muted);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .page-info {
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
 
   @media (max-width: 480px) {
