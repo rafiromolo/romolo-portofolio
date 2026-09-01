@@ -1,8 +1,14 @@
 ---
+import type { GetStaticPaths } from "astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllProjects } from "../../lib/sanity";
 
-const projects = await getAllProjects();
+export const getStaticPaths = (async ({ paginate }) => {
+  const projects = await getAllProjects();
+  return paginate(projects, { pageSize: 8 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
 ---
 
 <Layout title="Projects - Rafi Romolo">
@@ -16,7 +22,7 @@ const projects = await getAllProjects();
 
     <div class="project-grid">
       {
-        projects.map((project) => (
+        page.data.map((project) => (
           <article class="card">
             <img src={project.coverImageUrl} alt="" class="card-img" />
             <h3>
@@ -52,6 +58,28 @@ const projects = await getAllProjects();
         ))
       }
     </div>
+
+    <nav class="pagination" aria-label="Navigasi halaman">
+      {
+        page.url.prev ? (
+          <a href={page.url.prev}>&larr; Sebelumnya</a>
+        ) : (
+          <span class="disabled">&larr; Sebelumnya</span>
+        )
+      }
+
+      <span class="page-info"
+        >Halaman {page.currentPage} dari {page.lastPage}</span
+      >
+
+      {
+        page.url.next ? (
+          <a href={page.url.next}>Selanjutnya &rarr;</a>
+        ) : (
+          <span class="disabled">Selanjutnya &rarr;</span>
+        )
+      }
+    </nav>
   </section>
 </Layout>
 
@@ -87,5 +115,28 @@ const projects = await getAllProjects();
   .btn-primary,
   .btn-secondary {
     padding: 0.4rem 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .pagination a {
+    font-weight: 600;
+  }
+
+  .pagination .disabled {
+    color: var(--color-muted);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .page-info {
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
 </style>
