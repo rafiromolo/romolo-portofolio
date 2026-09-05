@@ -3,15 +3,12 @@ import { createClient, type SanityClient } from '@sanity/client';
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
 
-// Kalau env var belum diisi (misal saat pertama kali clone project ini),
-// client sengaja dibuat null supaya build tidak crash — halaman blog
-// akan tampil kosong dengan pesan "belum ada artikel" alih-alih error.
 export const sanityClient: SanityClient | null = projectId
   ? createClient({
       projectId,
       dataset,
       apiVersion: '2024-01-01',
-      useCdn: true,
+      useCdn: false,
     })
   : null;
 
@@ -108,4 +105,35 @@ export async function getProjectBySlug(
     }`,
     { slug }
   );
+}
+
+/* SANITY STUDIO: CAREER */
+export type SanityCareer = {
+  _id: string;
+  role: string;
+  company: string;
+  period: string;
+  isCurrent: boolean;
+  summary: string[];
+  details: string[];
+};
+
+const CAREER_LIST_FIELDS = `
+  _id,
+  role,
+  company,
+  period,
+  isCurrent,
+  summary,
+  details
+`;
+
+export async function getAllCareers(): Promise<SanityCareer[]> {
+  if (!sanityClient) return [];
+
+  return sanityClient.fetch(`
+    *[_type == "career"] | order(period desc) {
+      ${CAREER_LIST_FIELDS}
+    }
+  `);
 }
