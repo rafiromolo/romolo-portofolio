@@ -1,3 +1,10 @@
+---
+import { getAllCareers } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
+
+const careers = await getAllCareers();
+---
+
 <div id="container">
   <main>
     <section id="karir">
@@ -12,36 +19,42 @@
         </a>
       </div>
       <ol class="timeline">
-        <li class="timeline-item">
-          <div class="marker">
-            <span class="dot current" aria-hidden="true"></span>
-          </div>
-          <div class="card entry-card entry-card--current">
-            <div class="entry-head">
-              <h3>Digitalisasi Finance Accounting</h3>
-              <span class="badge-current">Saat ini</span>
-            </div>
-            <p class="company">PT Mekar Armada Jaya</p>
-            <p class="period">Sep 2024 - sekarang</p>
-            <p class="summary">
-              Membangun dan memelihara aplikasi web dari sisi frontend hingga
-              sedikit backend, fokus pada pengalaman pengguna yang clean dan
-              performa yang cepat.
-            </p>
-          </div>
-        </li>
-        <li class="timeline-item">
-          <div class="marker"><span class="dot" aria-hidden="true"></span></div>
-          <div class="card entry-card">
-            <div class="entry-head"><h3>IT</h3></div>
-            <p class="company">CV Prima Print</p>
-            <p class="period">Apr 2024 - Jul 2024</p>
-            <p class="summary">
-              Deskripsi singkat pengalaman kerja sebelumnya dan hal relevan yang
-              kamu kerjakan di sana.
-            </p>
-          </div>
-        </li>
+        {
+          careers.map((entry) => (
+            <li class="timeline-item">
+              <div class="marker">
+                <span
+                  class:list={["dot", { current: entry.isCurrent }]}
+                  aria-hidden="true"
+                />
+              </div>
+              <div
+                class:list={[
+                  "card",
+                  "entry-card",
+                  { "entry-card--current": entry.isCurrent },
+                ]}
+              >
+                <div class="entry-head">
+                  <h2>{entry.role}</h2>
+                  {entry.isCurrent && (
+                    <span class="badge-current">Saat ini</span>
+                  )}
+                </div>
+                <p class="company">{entry.company}</p>
+                <p class="period">{entry.period}</p>
+
+                {entry.details && entry.details.length > 0 && (
+                  <ul class="details">
+                    {entry.details.map((detail) => (
+                      <li set:html={toHTML(detail as any)} />
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))
+        }
       </ol>
     </section>
   </main>
