@@ -1,6 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { careerHistory } from "../../data/career";
+import { getAllCareers } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
+
+const careers = await getAllCareers();
 ---
 
 <Layout title="Perjalanan Karir - Rafi Romolo">
@@ -16,7 +19,7 @@ import { careerHistory } from "../../data/career";
 
     <ol class="timeline">
       {
-        careerHistory.map((entry) => (
+        careers.map((entry) => (
           <li class="timeline-item">
             <div class="marker">
               <span
@@ -37,12 +40,14 @@ import { careerHistory } from "../../data/career";
               </div>
               <p class="company">{entry.company}</p>
               <p class="period">{entry.period}</p>
-              <p class="summary">{entry.summary}</p>
+              {entry.summary && (
+                <p class="summary" set:html={toHTML(entry.summary as any)} />
+              )}
 
               {entry.details && entry.details.length > 0 && (
                 <ul class="details">
                   {entry.details.map((detail) => (
-                    <li>{detail}</li>
+                    <li set:html={toHTML(detail as any)} />
                   ))}
                 </ul>
               )}
@@ -54,45 +59,49 @@ import { careerHistory } from "../../data/career";
   </section>
 </Layout>
 
-<style>
-  h1 {
+<style is:global>
+  #career-detail h1 {
     font-size: 2.5rem;
   }
 
-  .back-link {
+  #career-detail .back-link {
     display: inline-block;
     margin-bottom: 2rem;
     color: var(--color-muted);
     font-size: 0.9rem;
   }
 
-  .eyebrow {
-    margin-top: 0 0 0.4rem;
+  #career-detail .eyebrow {
+    margin: 0 0 0.4rem;
   }
 
-  .intro {
+  #career-detail .intro {
     color: var(--color-muted);
     max-width: 60ch;
     margin: 0 0 3rem;
   }
 
-  .company {
+  #career-detail .company {
     font-weight: 600;
     margin: 0.35rem 0 0.15rem;
   }
 
-  .period {
+  #career-detail .period {
     font-size: 0.85rem;
     color: var(--color-muted);
     margin: 0 0 1rem;
   }
 
-  .summary {
+  #career-detail .summary {
     color: var(--color-muted);
     margin: 0 0 1rem;
   }
 
-  .details {
+  #career-detail .summary p {
+    margin: 0;
+  }
+
+  #career-detail .details {
     margin: 0;
     padding-left: 1.25rem;
     color: var(--color-muted);
@@ -100,7 +109,11 @@ import { careerHistory } from "../../data/career";
     gap: 0.5rem;
   }
 
-  .details li::marker {
+  #career-detail .details li::marker {
     color: var(--grad-2);
+  }
+
+  #career-detail .details li p {
+    margin: 0;
   }
 </style>
