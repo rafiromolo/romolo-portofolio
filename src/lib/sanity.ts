@@ -1,4 +1,5 @@
 import { createClient, type SanityClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
@@ -11,6 +12,14 @@ export const sanityClient: SanityClient | null = projectId
       useCdn: false,
     })
   : null;
+
+// Builder khusus untuk convert referensi gambar jadi URL asli
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null;
+
+export function urlFor(source: any) {
+  if (!builder) return '';
+  return builder.image(source).width(800).auto('format').url();
+}
 
 /* SANITY STUDO: BLOGS */
 export type SanityPost = {
