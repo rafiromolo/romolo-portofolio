@@ -49,20 +49,13 @@ const POST_LIST_FIELDS = `
 `;
 
 export async function getAllPosts(): Promise<SanityPost[]> {
-  if (!sanityClient) {
-    console.log('=== sanityClient adalah NULL, skip fetch ===');
-    return [];  
-  }
-  
-  const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug.current)] | order(publishedAt desc){ ${POST_LIST_FIELDS} }`);
-  console.log('=== Jumlah post ke-fetch:', posts.length, '===');
-  return posts;
+  if (!sanityClient) return [];
 
-  // return sanityClient.fetch(
-  //   `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
-  //     ${POST_LIST_FIELDS}
-  //   }`
-  // );
+  return sanityClient.fetch(
+    `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
+      ${POST_LIST_FIELDS}
+    }`
+  );
 }
 
 export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
