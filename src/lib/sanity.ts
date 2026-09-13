@@ -4,6 +4,11 @@ import imageUrlBuilder from '@sanity/image-url';
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
 
+console.log('=== SANITY DEBUG ===');
+console.log('projectId:', JSON.stringify(projectId));
+console.log('dataset:', JSON.stringify(dataset));
+console.log('====================');
+
 export const sanityClient: SanityClient | null = projectId
   ? createClient({
       projectId,
@@ -44,13 +49,20 @@ const POST_LIST_FIELDS = `
 `;
 
 export async function getAllPosts(): Promise<SanityPost[]> {
-  if (!sanityClient) return [];
+  if (!sanityClient) {
+    console.log('=== sanityClient adalah NULL, skip fetch ===');
+    return [];  
+  }
+  
+  const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug.current)] | order(publishedAt desc){ ${POST_LIST_FIELDS} }`);
+  console.log('=== Jumlah post ke-fetch:', posts.length, '===');
+  return posts;
 
-  return sanityClient.fetch(
-    `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
-      ${POST_LIST_FIELDS}
-    }`
-  );
+  // return sanityClient.fetch(
+  //   `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
+  //     ${POST_LIST_FIELDS}
+  //   }`
+  // );
 }
 
 export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
