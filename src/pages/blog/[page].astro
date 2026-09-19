@@ -9,76 +9,98 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+console.log(page.data.length);
 ---
 
 <Layout title="Blog - Rafi Romolo">
   <section>
     <h1>Blog</h1>
-    <ul class="post-list">
-      {
-        page.data.map((post) => (
-          <li class="card">
-            {post.coverImageUrl && (
-              <a href={`/blog/${post.slug}`} class="post-thumb">
-                <img
-                  src={post.coverImageUrl}
-                  alt={`Sampul ${post.title}`}
-                  loading="lazy"
-                />
-              </a>
-            )}
-            <div class="post-body">
-              <a href={`/blog/${post.slug}`}>
-                <h2>{post.title}</h2>
-              </a>
-              <p class="date">
-                {new Date(post.publishedAt).toLocaleDateString("id-ID", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-              <p>{post.excerpt}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
 
-    <nav class="pagination" aria-label="Navigasi halaman">
-      {
-        page.url.prev ? (
-          <a href={page.url.prev}>&larr; Sebelumnya</a>
-        ) : (
-          <span class="disabled">&larr; Sebelumnya</span>
-        )
-      }
-
-      <span class="page-info"
-        >Halaman {page.currentPage} dari {page.lastPage}</span
-      >
-
-      {
-        page.url.next ? (
-          <a href={page.url.next}>Selanjutnya &rarr;</a>
-        ) : (
-          <span class="disabled">Selanjutnya &rarr;</span>
-        )
-      }
-    </nav>
-
-    {
-      page.size === 0 && (
-        <p class="empty-state">
-          Belum ada artikel. Tulis dan publish artikel pertama kamu lewat
-          <a href="https://www.sanity.io/manage" target="_blank" rel="noopener">
-            Sanity Studio
-          </a>
-          , atau pastikan <code>PUBLIC_SANITY_PROJECT_ID</code> sudah diisi di
-          file <code>.env</code>.
+    {page.data.length === 0 ? (
+      <div class="empty-state">
+        <div class="empty-icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 6a2 2 0 012-2h9l5 5v9a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M15 4v4a1 1 0 001 1h4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M8 13h8M8 17h5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        <h2>Belum Ada Artikel</h2>
+        <p>
+          Saya belum sempat menulis apa-apa di sini. Cek lagi lain waktu, atau
+          lihat-lihat <a href="/projects">project</a> saya dulu sementara
+          menunggu.
         </p>
-      )
-    }
+      </div>
+    ) : (
+      <>
+        <ul class="post-list">
+          {page.data.map((post) => (
+            <li class="card">
+              {post.coverImageUrl && (
+                <a href={`/blog/${post.slug}`} class="post-thumb">
+                  <img
+                    src={post.coverImageUrl}
+                    alt={`Sampul ${post.title}`}
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="post-body">
+                <a href={`/blog/${post.slug}`}>
+                  <h2>{post.title}</h2>
+                </a>
+                <p class="date">
+                  {new Date(post.publishedAt).toLocaleDateString("id-ID", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+                <p>{post.excerpt}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <nav class="pagination" aria-label="Navigasi halaman">
+          {page.url.prev ? (
+            <a href={page.url.prev}>&larr; Sebelumnya</a>
+          ) : (
+            <span class="disabled">&larr; Sebelumnya</span>
+          )}
+
+          <span class="page-info">
+            Halaman {page.currentPage} dari {page.lastPage}
+          </span>
+
+          {page.url.next ? (
+            <a href={page.url.next}>Selanjutnya &rarr;</a>
+          ) : (
+            <span class="disabled">Selanjutnya &rarr;</span>
+          )}
+        </nav>
+      </>
+    )}
   </section>
 </Layout>
 
@@ -129,10 +151,6 @@ const { page } = Astro.props;
     margin: 0.2rem 0 0.6rem;
   }
 
-  .empty-state {
-    color: var(--color-text-muted);
-  }
-
   .pagination {
     display: flex;
     align-items: center;
@@ -154,6 +172,48 @@ const { page } = Astro.props;
   .page-info {
     color: var(--color-muted);
     font-size: 0.9rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    max-width: 420px;
+    margin: 4rem auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .empty-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba(15, 47, 107, 0.1),
+      rgba(37, 99, 235, 0.1)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-grad-2);
+  }
+
+  .empty-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .empty-state h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .empty-state a {
+    font-weight: 600;
   }
 
   @media (max-width: 480px) {
