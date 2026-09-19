@@ -1,3 +1,13 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getAllProjects } from "../../lib/sanity";
+
+const project = await getAllProjects();
+
+const currentYear = new Date().getFullYear();
+const duration = currentYear - 2024; // next: change hardcoded '2024' into dynamic data
+---
+
 <div id="container">
   <main>
     <section id="hero">
@@ -21,16 +31,16 @@
 
         <div class="stats">
           <div>
-            <div class="stat-num">0+</div>
+            <div class="stat-num">{project.length}</div>
             <div class="stat-label">Project Selesai</div>
           </div>
           <div>
-            <div class="stat-num">0+</div>
-            <div class="stat-label">Project Selesai</div>
+            <div class="stat-num">{duration}</div>
+            <div class="stat-label">Klien Puas</div>
           </div>
           <div>
-            <div class="stat-num">0+</div>
-            <div class="stat-label">Project Selesai</div>
+            <div class="stat-num">{duration}</div>
+            <div class="stat-label">Tahun Pengalaman</div>
           </div>
         </div>
       </div>
