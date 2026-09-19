@@ -24,6 +24,7 @@
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "prettier-plugin-astro": "^1.0.1"
   }
 }
