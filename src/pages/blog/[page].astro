@@ -9,7 +9,6 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-console.log(page.data.length);
 ---
 
 <Layout title="Blog - Rafi Romolo">
@@ -47,7 +46,7 @@ console.log(page.data.length);
         <h2>Belum Ada Artikel</h2>
         <p>
           Saya belum sempat menulis apa-apa di sini. Cek lagi lain waktu, atau
-          lihat-lihat <a href="/projects">project</a> saya dulu sementara
+          lihat-lihat <a href="/projects/1">project</a> saya dulu sementara
           menunggu.
         </p>
       </div>
