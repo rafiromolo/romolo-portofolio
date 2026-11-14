@@ -155,6 +155,7 @@ export type LittleMoreTopic = {
   categorySlug: string;
   categoryDescription: string;
   order: number;
+  isActive: boolean;
 };
 
 export async function getLittleMoreTopics(): Promise<LittleMoreTopic[]> {
