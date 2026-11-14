@@ -156,6 +156,10 @@ export type LittleMoreTopic = {
   categoryDescription: string;
   order: number;
   isActive: boolean;
+  categoryColor?: {
+    background: string;
+    foreground: string;
+  };
 };
 
 export async function getLittleMoreTopics(): Promise<LittleMoreTopic[]> {
@@ -163,7 +167,9 @@ export async function getLittleMoreTopics(): Promise<LittleMoreTopic[]> {
 
   return sanityClient.fetch(
     `*[_type == "littleMore" && isActive == true] | order(category asc, order asc){
-      _id, title, category, categorySlug, categoryDescription, order
+      _id, title, category, categorySlug, categoryDescription, order, categoryColor {
+        background, foreground
+      }
     }`,
   );
 }
