@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getLittleMoreTopics } from '../../lib/sanity';
+
+const topics = await getLittleMoreTopics();
+
+const topicsJson = JSON.stringify(topics).replace(/</g, '\\u003c');
+---
+
+<Layout title="A Little More About Us">
+    <section id="little-more-about-us">
+        <div class="flex flex-col gap-4 mb-8">
+            <div>
+                <h1>A Little More About Us</h1>
+            </div>
+
+            <div>
+                <p>Sebuah game untuk menyelam lebih jauh tentang dua manusia yang saling mencintai.</p>
+            </div>
+        </div>
+
+        <div class="rounded-2xl border border-gray-200 p-8 min-h-48 flex flex-col justify-center">
+            <p id="card-category" class="text-xs uppercase tracking-wide opacity-60 mb-3"></p>
+            <p id="card-title" class="text-xl font-semibold">Tekan tombol untuk mulai</p>
+        </div>
+
+        <button type="button" id="next-btn" class="flex items-center justify-center gap-2 w-full mt-4 py-2 bg-blue-700 text-white font-semibold text-sm rounded-full hover:opacity-80 hover:cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+                <path d="M0 0h32v32H0z" fill="none" />
+                <path fill="currentColor" d="M25.207 5.793a1 1 0 1 0-1.414 1.414l1.799 1.8c-5.173.158-8.346 3.332-11.216 6.203l-.083.083C11.26 18.326 8.533 21 4 21a1 1 0 1 0 0 2c5.415 0 8.679-3.264 11.624-6.21l.083-.083c2.938-2.938 5.588-5.539 9.87-5.7l-1.784 1.786a1 1 0 1 0 1.414 1.414l3.5-3.5a1 1 0 0 0 0-1.414zM4 9c4.4 0 7.38 2.155 9.922 4.543l-.513.512l-.177.177q-.371.372-.73.726C10.104 12.716 7.632 11 4 11a1 1 0 1 1 0-2m21.592 13.994c-4.178-.129-7.051-2.224-9.514-4.537l.512-.512l.178-.177q.371-.372.73-.726c2.304 2.154 4.676 3.823 8.08 3.95l-1.785-1.785a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414l-3.5 3.5a1 1 0 1 1-1.414-1.414z" />
+            </svg>
+            Ambil Kartu Berikutnya
+        </button>
+
+        <!-- <div class="px-4 py-4 border border-dashed border-gray-400 rounded-lg bg-white shadow-md">
+            <p class="font-bold text-base mb-4">Try a random card</p>
+
+            <div class="flex flex-col justify-center gap-2">
+                <h4 class="uppercase text-slate-400 text-center font-semibold text-sm">Childhood</h4>
+                <p class="text-lg font-semibold text-center">Apa kenangan masa kecil yang paling kamu rindukan?</p>
+            </div>
+
+            <button type="button" class="w-full flex items-center justify-center gap-2 mt-4 py-1 bg-blue-700 text-white font-semibold text-sm rounded-full hover:opacity-80 hover:cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+                    <path d="M0 0h32v32H0z" fill="none" />
+                    <path fill="currentColor" d="M25.207 5.793a1 1 0 1 0-1.414 1.414l1.799 1.8c-5.173.158-8.346 3.332-11.216 6.203l-.083.083C11.26 18.326 8.533 21 4 21a1 1 0 1 0 0 2c5.415 0 8.679-3.264 11.624-6.21l.083-.083c2.938-2.938 5.588-5.539 9.87-5.7l-1.784 1.786a1 1 0 1 0 1.414 1.414l3.5-3.5a1 1 0 0 0 0-1.414zM4 9c4.4 0 7.38 2.155 9.922 4.543l-.513.512l-.177.177q-.371.372-.73.726C10.104 12.716 7.632 11 4 11a1 1 0 1 1 0-2m21.592 13.994c-4.178-.129-7.051-2.224-9.514-4.537l.512-.512l.178-.177q.371-.372.73-.726c2.304 2.154 4.676 3.823 8.08 3.95l-1.785-1.785a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414l-3.5 3.5a1 1 0 1 1-1.414-1.414z" />
+                </svg>
+                Ambil Kartu Berikutnya
+            </button>
+        </div> -->
+    </section>
+
+    <script is:inline id="topics-data" type="application/json" set:html={topicsJson} />
+
+    <script>
+        type Topic = {
+            _id: string;
+            title: string;
+            category: string;
+        };
+
+        const topics: Topic[] = JSON.parse(
+            document.getElementById("topics-data")?.textContent || "[]"
+        );
+
+        const categoryEl = document.getElementById('card-category')!;
+        const titleEl = document.getElementById('card-title')!;
+        const btn = document.getElementById('next-btn')!;
+
+        let deck: Topic[] = [];
+
+        function shuffle(items: Topic[]): Topic[] {
+            const arr = [...items];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        btn.addEventListener('click', () => {
+            if (topics.length === 0) return;
+            if (deck.length === 0) deck = shuffle(topics);
+
+            const card = deck.pop()!;
+            categoryEl.textContent = card.category;
+            titleEl.textContent = card.title;
+        });
+    </script>
+</Layout>
