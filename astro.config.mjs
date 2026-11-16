@@ -1,11 +1,15 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
+import tailwind from "@tailwindcss/vite";
 
-import vercel from '@astrojs/vercel';
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://portofolio-rafi-romolo.vercel.app',
+  site: "https://portofolio-rafi-romolo.vercel.app",
   integrations: [],
-  adapter: vercel()
+  adapter: vercel(),
+  vite: {
+    plugins: [tailwind()],
+  },
 });

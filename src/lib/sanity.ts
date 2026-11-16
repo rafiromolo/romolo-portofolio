@@ -1,19 +1,14 @@
-import { createClient, type SanityClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createClient, type SanityClient } from "@sanity/client";
+import imageUrlBuilder from "@sanity/image-url";
 
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
-const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
-
-console.log('=== SANITY DEBUG ===');
-console.log('projectId:', JSON.stringify(projectId));
-console.log('dataset:', JSON.stringify(dataset));
-console.log('====================');
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET || "production";
 
 export const sanityClient: SanityClient | null = projectId
   ? createClient({
       projectId,
       dataset,
-      apiVersion: '2024-01-01',
+      apiVersion: "2024-01-01",
       useCdn: false,
     })
   : null;
@@ -22,8 +17,8 @@ export const sanityClient: SanityClient | null = projectId
 const builder = sanityClient ? imageUrlBuilder(sanityClient) : null;
 
 export function urlFor(source: any) {
-  if (!builder) return '';
-  return builder.image(source).width(800).auto('format').url();
+  if (!builder) return "";
+  return builder.image(source).width(800).auto("format").url();
 }
 
 /* SANITY STUDO: BLOGS */
@@ -54,7 +49,7 @@ export async function getAllPosts(): Promise<SanityPost[]> {
   return sanityClient.fetch(
     `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
       ${POST_LIST_FIELDS}
-    }`
+    }`,
   );
 }
 
@@ -66,7 +61,7 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
       ${POST_LIST_FIELDS},
       body
     }`,
-    { slug }
+    { slug },
   );
 }
 
@@ -103,12 +98,12 @@ export async function getAllProjects(): Promise<SanityProject[]> {
   return sanityClient.fetch(
     `*[_type == "project" && defined(slug.current)] | order(_createdAt desc) {
       ${PROJECT_LIST_FIELDS}
-    }`
+    }`,
   );
 }
 
 export async function getProjectBySlug(
-  slug: string
+  slug: string,
 ): Promise<SanityProject | null> {
   if (!sanityClient) return null;
 
@@ -117,7 +112,7 @@ export async function getProjectBySlug(
       ${PROJECT_LIST_FIELDS},
       body
     }`,
-    { slug }
+    { slug },
   );
 }
 
@@ -150,4 +145,31 @@ export async function getAllCareers(): Promise<SanityCareer[]> {
       ${CAREER_LIST_FIELDS}
     }
   `);
+}
+
+/* A LITTLE MORE ABOUT US */
+export type LittleMoreTopic = {
+  _id: string;
+  title: string;
+  category: string;
+  categorySlug: string;
+  categoryDescription: string;
+  order: number;
+  isActive: boolean;
+  categoryColor?: {
+    background: string;
+    foreground: string;
+  };
+};
+
+export async function getLittleMoreTopics(): Promise<LittleMoreTopic[]> {
+  if (!sanityClient) return [];
+
+  return sanityClient.fetch(
+    `*[_type == "littleMore" && isActive == true] | order(category asc, order asc){
+      _id, title, category, categorySlug, categoryDescription, order, categoryColor {
+        background, foreground
+      }
+    }`,
+  );
 }
