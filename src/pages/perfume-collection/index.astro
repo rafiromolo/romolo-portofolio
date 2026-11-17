@@ -1,13 +1,147 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { dummyOrders } from "../../data/order-history.js";
+
+type Order = {
+  orderId: string;
+  brand: string;
+  variant: string;
+  size: string;
+  jenis: string;
+  numberOfPurchases: number;
+  scent: string;
+  status: string;
+};
+
+const columns: [keyof Order, string][] = [
+  ["orderId", "Order Id"],
+  ["brand", "Brand"],
+  ["variant", "Variant"],
+  ["size", "Size"],
+  ["jenis", "Jenis"],
+  ["numberOfPurchases", "Number of Purchases"],
+  ["scent", "Scent"],
+  ["status", "Status"],
+];
+
+const statuses = [...new Set(dummyOrders.map((item) => item.status))];
+const brands = [...new Set(dummyOrders.map((item) => item.brand))];
 ---
 
-<Layout title="Perfume Collection">
+<Layout title="Perfume Collection" header="minimal">
   <section id="perfume-collection">
     <h1>My Perfume Collection</h1>
     
     <div class="pt-4">
         <h2>Now Collection</h2>
+
+        <div class="overflow-x-auto overflow-y-scroll">
+          <table class="min-w-full text-sm table-fixed">
+            <colgroup>
+              <col style="width:240px" />
+              <col style="width:200px" />
+              <col style="width:240px" />
+              <col style="width:170px" />
+              <col style="width:170px" />
+              <col style="width:200px" />
+              <col style="width:170px" />
+            </colgroup>
+            <thead class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider">
+              <tr>
+                {columns.map(([key, label]) => (
+                  <th class="text-left px-4 py-3 sortable">{label}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody id="orderTableBody" class="divide-y divide-slate-200">
+              <tr>
+                <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
   </section>
 </Layout>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script
+  define:vars={{ orders: dummyOrders }}
+>
+  const columns = [
+    ["orderId", "Order Id"],
+    ["brand", "Brand"],
+    ["variant", "Variant"],
+    ["size", "Size"],
+    ["jenis", "Jenis"],
+    ["numberOfPurchases", "Number of Purchases"],
+    ["scent", "Scent"],
+    ["status", "Status"],
+  ];
+
+  let filteredOrders = [...orders];
+  let currentPage = 1;
+  let pageSize = 10;
+  let sortKey = "orderId";
+  let sortDirection = "asc";
+
+  const tableBody = document.getElementById("orderTableBody");
+  const brandFilter = document.getElementById("searchInput");
+  const statusFilter = document.getElementById("statusFilter");
+
+  // Format status badge
+  function getStatusBadge(status) {
+    const styles = {
+      Available: "bg-green-100 text-green-700",
+      Shipping: "bg-blue-100 text-blue-700",
+      Empty: "bg-red-100 text-red-700"
+    };
+
+    const style = styles[status] || "bg-gray-100 text-gray-700";
+
+    return `
+      <span class="rounded-full px-3 py-1 text-xs font-medium ${style}">
+        ${escapeHTML(status)}
+      </span>
+    `;
+
+    // Prevent HTML injection when rendering dummy/API values
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      })[char]);
+    }
+
+    // Sorting
+    function sortOrders() {
+      filteredOrders.sort((a, b) => {
+        const valueA = a[sortKey];
+        const valueB = b[sortKey];
+
+        let result;
+
+        if (
+          typeof valueA === "number" &&
+          typeof valueB === "number"
+        ) {
+          result = valueA - valueB;
+        } else {
+          result = String(valueA ?? "").localeCompare(
+            String(valueB ?? ""),
+            undefined,
+            { numeric: true, sensitivity: "base" }
+          );
+        }
+
+        return sortDirection === "asc" ? result : -result;
+      });
+    }
+  }
+</script>
