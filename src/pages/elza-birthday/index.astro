@@ -1,0 +1,571 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Elza's Birthday" header="none" showFooter={false}>
+  <main class="birthday-page">
+    <!-- Decorative background -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- Floating decorations -->
+    <div class="floating-decoration decoration-one">♡</div>
+    <div class="floating-decoration decoration-two">✦</div>
+    <div class="floating-decoration decoration-three">♡</div>
+    <div class="floating-decoration decoration-four">✧</div>
+    <div class="floating-decoration decoration-five">♡</div>
+
+    <!-- Main content -->
+    <section class="birthday-content">
+      <div class="top-label">
+        <span class="label-line"></span>
+        <span>SOMETHING SPECIAL IS ON ITS WAY</span>
+        <span class="label-line"></span>
+      </div>
+
+      <div class="heart-icon">♡</div>
+
+      <h1>
+        Something Beautiful
+        <span>Is Coming.</span>
+      </h1>
+
+      <p class="subtitle">
+        A special day is getting closer, and someone deserves all the happiness
+        in the world.
+      </p>
+
+      <div class="countdown-wrapper">
+        <p class="countdown-heading">UNTIL YOUR SPECIAL DAY</p>
+
+        <div class="countdown-grid">
+          <div class="countdown-card">
+            <span class="countdown-number" id="days">
+              00
+            </span>
+            <span class="countdown-label">Days</span>
+          </div>
+
+          <div class="countdown-card">
+            <span class="countdown-number" id="hours">
+              00
+            </span>
+            <span class="countdown-label">Hours</span>
+          </div>
+
+          <div class="countdown-card">
+            <span class="countdown-number" id="minutes">
+              00
+            </span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+
+          <div class="countdown-card">
+            <span class="countdown-number" id="seconds">
+              00
+            </span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="birthday-message" id="countdown-message">
+        Every second makes this day a little closer ♡
+      </p>
+
+      <div class="bottom-decoration">
+        <span>Made with</span>
+        <span class="bottom-heart">♥</span>
+        <span>just for you</span>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    :global(body) {
+      margin: 0;
+      background: #fdf5f2;
+    }
+
+    .birthday-page {
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 40px 20px;
+      box-sizing: border-box;
+
+      background:
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(255, 208, 205, 0.65),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 85% 80%,
+          rgba(244, 194, 191, 0.5),
+          transparent 35%
+        ),
+        linear-gradient(135deg, #fff8f5, #fcebe9, #fff4ef);
+
+      background-size: 200% 200%;
+      animation: backgroundMove 12s ease infinite;
+    }
+
+    .birthday-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 680px;
+      text-align: center;
+      animation: contentAppear 1.2s ease both;
+    }
+
+    /* Background glow */
+
+    .background-glow {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.45;
+      z-index: -1;
+      animation: glowMove 8s ease-in-out infinite alternate;
+    }
+
+    .glow-one {
+      background: #f4b8ba;
+      top: -100px;
+      left: -100px;
+    }
+
+    .glow-two {
+      background: #eac4cb;
+      bottom: -120px;
+      right: -100px;
+      animation-delay: 2s;
+    }
+
+    /* Top label */
+
+    .top-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #b77e83;
+      font-size: 10px;
+      letter-spacing: 4px;
+      font-weight: 600;
+      margin-bottom: 35px;
+    }
+
+    .label-line {
+      width: 25px;
+      height: 1px;
+      background: #d9a4a6;
+    }
+
+    .heart-icon {
+      color: #cb8e94;
+      font-size: 35px;
+      margin-bottom: 12px;
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    /* Heading */
+
+    h1 {
+      color: #65474b;
+      font-family: Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(38px, 7vw, 68px);
+      line-height: 1.15;
+      margin: 0;
+      letter-spacing: -2px;
+    }
+
+    h1 span {
+      display: block;
+      color: #c17e85;
+      font-style: italic;
+      margin-top: 5px;
+    }
+
+    .subtitle {
+      color: #a98586;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.7;
+      margin: 22px auto 45px;
+      max-width: 420px;
+    }
+
+    /* Countdown */
+
+    .countdown-wrapper {
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 24px;
+      box-shadow:
+        0 15px 45px rgba(170, 112, 119, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .countdown-heading {
+      color: #b47c81;
+      font-size: 10px;
+      letter-spacing: 4px;
+      font-weight: 600;
+      margin: 0 0 25px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .countdown-card {
+      min-width: 0;
+      padding: 24px 8px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 20px rgba(160, 100, 110, 0.06);
+      transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        background 0.35s ease;
+    }
+
+    .countdown-card:hover {
+      transform: translateY(-7px);
+      background: #fff;
+      box-shadow: 0 15px 30px rgba(160, 100, 110, 0.13);
+    }
+
+    .countdown-number {
+      display: block;
+      color: #a96670;
+      font-family: Georgia, serif;
+      font-size: clamp(30px, 6vw, 54px);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+
+    .countdown-number.tick {
+      animation: numberTick 0.45s ease;
+    }
+
+    .countdown-label {
+      display: block;
+      color: #bd9295;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    /* Footer */
+
+    .birthday-message {
+      color: #a98586;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 14px;
+      margin-top: 35px;
+      animation: softPulse 3s ease-in-out infinite;
+    }
+
+    .bottom-decoration {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      color: #bd9295;
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-top: 65px;
+    }
+
+    .bottom-heart {
+      color: #cc858c;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    /* Floating decorations */
+
+    .floating-decoration {
+      position: absolute;
+      color: rgba(194, 126, 135, 0.4);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .decoration-one {
+      top: 15%;
+      left: 12%;
+      font-size: 35px;
+    }
+
+    .decoration-two {
+      top: 25%;
+      right: 15%;
+      font-size: 25px;
+      animation-delay: 1s;
+    }
+
+    .decoration-three {
+      bottom: 20%;
+      left: 18%;
+      font-size: 27px;
+      animation-delay: 2s;
+    }
+
+    .decoration-four {
+      bottom: 25%;
+      right: 12%;
+      font-size: 32px;
+      animation-delay: 3s;
+    }
+
+    .decoration-five {
+      top: 65%;
+      right: 25%;
+      font-size: 18px;
+      animation-delay: 1.5s;
+    }
+
+    /* Animations */
+
+    @keyframes backgroundMove {
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes contentAppear {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-8deg);
+      }
+      50% {
+        transform: translateY(-25px) rotate(8deg);
+      }
+    }
+
+    @keyframes heartbeat {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      15% {
+        transform: scale(1.2);
+      }
+      30% {
+        transform: scale(1);
+      }
+      45% {
+        transform: scale(1.15);
+      }
+    }
+
+    @keyframes numberTick {
+      0% {
+        opacity: 0.4;
+        transform: translateY(-8px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes softPulse {
+      0%,
+      100% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes glowMove {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(50px, 30px);
+      }
+    }
+
+    /* Mobile responsive */
+
+    @media (max-width: 480px) {
+      .birthday-page {
+        padding: 35px 16px;
+      }
+
+      .top-label {
+        font-size: 8px;
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+        margin-bottom: 35px;
+      }
+
+      .countdown-wrapper {
+        padding: 18px 12px;
+        border-radius: 20px;
+      }
+
+      .countdown-grid {
+        gap: 7px;
+      }
+
+      .countdown-card {
+        padding: 20px 3px;
+        border-radius: 12px;
+      }
+
+      .countdown-label {
+        font-size: 8px;
+        letter-spacing: 1px;
+      }
+
+      .bottom-decoration {
+        margin-top: 45px;
+      }
+
+      .decoration-one {
+        left: 5%;
+      }
+
+      .decoration-two {
+        right: 5%;
+      }
+    }
+
+    /* Accessibility */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+
+  <script>
+    const targetDate = new Date("2026-12-22T00:00:00+07:00").getTime();
+
+    const elements = {
+      days: document.querySelector("#days"),
+      hours: document.querySelector("#hours"),
+      minutes: document.querySelector("#minutes"),
+      seconds: document.querySelector("#seconds"),
+      message: document.querySelector("#countdown-message"),
+    };
+
+    const numberElements = [
+      elements.days,
+      elements.hours,
+      elements.minutes,
+      elements.seconds,
+    ];
+
+    let countdownInterval: ReturnType<typeof setInterval> | undefined;
+
+    function updateNumber(element: Element | null, value: number) {
+      if (!element) return;
+
+      const formattedValue = String(value).padStart(2, "0");
+
+      if (element.textContent !== formattedValue) {
+        element.textContent = formattedValue;
+
+        element.classList.remove("tick");
+
+        // Restart animation
+        void (element as HTMLElement).offsetWidth;
+
+        element.classList.add("tick");
+      }
+    }
+
+    function updateCountdown() {
+      const distance = targetDate - Date.now();
+
+      if (distance <= 0) {
+        numberElements.forEach((element) => {
+          if (element) element.textContent = "00";
+        });
+
+        if (elements.message) {
+          elements.message.textContent =
+            "Happy Birthday, Elza! May your day be as beautiful as you are. ♡";
+        }
+
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
+
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      updateNumber(elements.days, days);
+      updateNumber(elements.hours, hours);
+      updateNumber(elements.minutes, minutes);
+      updateNumber(elements.seconds, seconds);
+    }
+
+    updateCountdown();
+
+    if (Date.now() < targetDate) {
+      countdownInterval = setInterval(updateCountdown, 1000);
+    }
+  </script>
+</Layout>

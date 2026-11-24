@@ -1,263 +1,287 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getLittleMoreTopics } from '../../lib/sanity';
+import Layout from "../../layouts/Layout.astro";
+import { getLittleMoreTopics } from "../../lib/sanity";
 
 const topics = await getLittleMoreTopics();
 
 // Hanya gunakan topik aktif
-const activeTopics = topics.filter(topic => topic.isActive !== false);
+const activeTopics = topics.filter((topic) => topic.isActive !== false);
 
 // Ambil kategori unik dari topik aktif
 const categories = Array.from(
-    new Map(
-        activeTopics.map(topic => [
-            topic.categorySlug,
-            {
-                category: topic.category,
-                categorySlug: topic.categorySlug,
-                categoryDescription: topic.categoryDescription,
-                categoryColor: topic.categoryColor,
-            }
-        ])
-    ).values()
+  new Map(
+    activeTopics.map((topic) => [
+      topic.categorySlug,
+      {
+        category: topic.category,
+        categorySlug: topic.categorySlug,
+        categoryDescription: topic.categoryDescription,
+        categoryColor: topic.categoryColor,
+      },
+    ]),
+  ).values(),
 );
 
-const topicsJson = JSON.stringify(activeTopics).replace(/</g, '\\u003c');
-const categoriesJson = JSON.stringify(categories).replace(/</g, '\\u003c');
+const topicsJson = JSON.stringify(activeTopics).replace(/</g, "\\u003c");
+const categoriesJson = JSON.stringify(categories).replace(/</g, "\\u003c");
 ---
 
 <Layout title="A Little More About Us" header="minimal">
-    <section id="little-more-about-us">
-        <!-- Header -->
-        <div class="flex flex-col gap-4 mb-8">
-            <div>
-                <h1>A Little More About Us</h1>
-            </div>
+  <section id="little-more-about-us">
+    <!-- Header -->
+    <div class="flex flex-col gap-4 mb-8">
+      <div>
+        <h1>A Little More About Us</h1>
+      </div>
 
-            <div>
-                <p>Sebuah game untuk menyelam lebih jauh tentang dua manusia yang saling mencintai.</p>
-            </div>
-        </div>
+      <div>
+        <p>
+          Sebuah game untuk menyelam lebih jauh tentang dua manusia yang saling
+          mencintai.
+        </p>
+      </div>
+    </div>
 
-        <!-- CATEGORY SELECTION -->
-        <div id="category-section">
-            <div class="mb-6">
-                <h2 class="text-lg font-semibold mb-2">
-                    Mau mengenal lebih jauh tentang apa?
-                </h2>
-                <p class="text-sm opacity-60">
-                    Pilih satu kategori untuk memulai percakapan.
-                </p>
-            </div>
+    <!-- CATEGORY SELECTION -->
+    <div id="category-section">
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-2">
+          Mau mengenal lebih jauh tentang apa?
+        </h2>
+        <p class="text-sm opacity-60">
+          Pilih satu kategori untuk memulai percakapan.
+        </p>
+      </div>
 
-            <div id="category-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
-        </div>
+      <div
+        id="category-grid"
+        class="grid grid-cols-2 sm:grid-cols-3 gap-3"
+      ></div>
+    </div>
 
-        <!-- CARD SECTION -->
-        <div id="card-section" class="hidden">
-            <button 
-                type="button" 
-                id="back-btn" 
-                class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition mb-6"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="18" height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m15 18-6-6 6-6"/>
-                    <path d="M9 12h12"/>
-                </svg>
+    <!-- CARD SECTION -->
+    <div id="card-section" class="hidden">
+      <button
+        type="button"
+        id="back-btn"
+        class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition mb-6"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+          <path d="M9 12h12" />
+        </svg>
+        Pilih kategori lain
+      </button>
 
-                Pilih kategori lain
-            </button>
+      <!-- Selected Category -->
+      <div class="mb-5">
+        <p class="text-xs uppercase tracking-widest opacity-50 mb-1">
+          Kategori pilihan
+        </p>
 
-            <!-- Selected Category -->
-            <div class="mb-5">
-                <p class="text-xs uppercase tracking-widest opacity-50 mb-1">
-                    Kategori pilihan
-                </p>
+        <h2 id="selected-category" class="text-lg font-semibold"></h2>
+      </div>
 
-                <h2 id="selected-category" class="text-lg font-semibold"></h2>
-            </div>
+      <div
+        id="question-card"
+        class="rounded-2xl border border-gray-200 p-8 min-h-48 flex flex-col justify-center"
+      >
+        <p
+          id="card-category"
+          class="text-xs uppercase tracking-wide opacity-60 mb-3"
+        ></p>
+        <p id="card-title" class="text-xl font-semibold">
+          Tekan tombol untuk mulai
+        </p>
+      </div>
 
-            <div id="question-card" class="rounded-2xl border border-gray-200 p-8 min-h-48 flex flex-col justify-center">
-                <p id="card-category" class="text-xs uppercase tracking-wide opacity-60 mb-3"></p>
-                <p id="card-title" class="text-xl font-semibold">Tekan tombol untuk mulai</p>
-            </div>
+      <p id="card-counter" class="text-xs opacity-50 text-center mt-3">
+        Siap untuk memulai?
+      </p>
 
-            <p id="card-counter" class="text-xs opacity-50 text-center mt-3">
-                Siap untuk memulai?
-            </p>
+      <button
+        type="button"
+        id="next-btn"
+        class="flex items-center justify-center gap-2 w-full mt-4 py-3 bg-blue-700 text-white font-semibold text-sm rounded-full hover:opacity-80 hover:cursor-pointer transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 32 32"
+        >
+          <path d="M0 0h32v32H0z" fill="none" />
+          <path
+            fill="currentColor"
+            d="M25.207 5.793a1 1 0 1 0-1.414 1.414l1.799 1.8c-5.173.158-8.346 3.332-11.216 6.203l-.083.083C11.26 18.326 8.533 21 4 21a1 1 0 1 0 0 2c5.415 0 8.679-3.264 11.624-6.21l.083-.083c2.938-2.938 5.588-5.539 9.87-5.7l-1.784 1.786a1 1 0 1 0 1.414 1.414l3.5-3.5a1 1 0 0 0 0-1.414zM4 9c4.4 0 7.38 2.155 9.922 4.543l-.513.512-.177.177q-.371.372-.73.726C10.104 12.716 7.632 11 4 11a1 1 0 1 1 0-2m21.592 13.994c-4.178-.129-7.051-2.224-9.514-4.537l.512-.512.178-.177q.371-.372.73-.726c2.304 2.154 4.676 3.823 8.08 3.95l-1.785-1.785a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414l-3.5 3.5a1 1 0 1 1-1.414-1.414z"
+          />
+        </svg>
+        Ambil Kartu Berikutnya
+      </button>
+    </div>
+  </section>
 
-            <button 
-                type="button" 
-                id="next-btn" 
-                class="flex items-center justify-center gap-2 w-full mt-4 py-3 bg-blue-700 text-white font-semibold text-sm rounded-full hover:opacity-80 hover:cursor-pointer transition"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="20" height="20"
-                    viewBox="0 0 32 32">
-                    <path d="M0 0h32v32H0z" fill="none"/>
-                    <path fill="currentColor"
-                        d="M25.207 5.793a1 1 0 1 0-1.414 1.414l1.799 1.8c-5.173.158-8.346 3.332-11.216 6.203l-.083.083C11.26 18.326 8.533 21 4 21a1 1 0 1 0 0 2c5.415 0 8.679-3.264 11.624-6.21l.083-.083c2.938-2.938 5.588-5.539 9.87-5.7l-1.784 1.786a1 1 0 1 0 1.414 1.414l3.5-3.5a1 1 0 0 0 0-1.414zM4 9c4.4 0 7.38 2.155 9.922 4.543l-.513.512-.177.177q-.371.372-.73.726C10.104 12.716 7.632 11 4 11a1 1 0 1 1 0-2m21.592 13.994c-4.178-.129-7.051-2.224-9.514-4.537l.512-.512.178-.177q.371-.372.73-.726c2.304 2.154 4.676 3.823 8.08 3.95l-1.785-1.785a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414l-3.5 3.5a1 1 0 1 1-1.414-1.414z"/>
-                </svg>
+  <script
+    is:inline
+    id="topics-data"
+    type="application/json"
+    set:html={topicsJson}
+  />
+  <script
+    is:inline
+    id="categories-data"
+    type="application/json"
+    set:html={categoriesJson}
+  />
+  <script>
+    type CategoryColor = {
+      background: string;
+      foreground: string;
+    };
 
-                Ambil Kartu Berikutnya
-            </button>
-        </div>
-    </section>
+    type Topic = {
+      _id: string;
+      title: string;
+      category: string;
+      categorySlug: string;
+      categoryDescription: string;
+      order: number;
+      isActive: boolean;
+      categoryColor?: CategoryColor;
+    };
 
-    <script is:inline id="topics-data" 
-        type="application/json" 
-        set:html={topicsJson} />
+    type Category = {
+      category: string;
+      categorySlug: string;
+      categoryDescription: string;
+      categoryColor?: CategoryColor;
+      icon: string;
+    };
 
-    <script is:inline id="categories-data"
-        type="application/json" 
-        set:html={categoriesJson} />
+    const topics: Topic[] = JSON.parse(
+      document.getElementById("topics-data")?.textContent || "[]",
+    );
 
-    <script>
-        type CategoryColor = {
-            background: string;
-            foreground: string;
-        };
+    const categories: Category[] = JSON.parse(
+      document.getElementById("categories-data")?.textContent || "[]",
+    );
 
-        type Topic = {
-            _id: string;
-            title: string;
-            category: string;
-            categorySlug: string;
-            categoryDescription: string;
-            order: number;
-            isActive: boolean;
-            categoryColor?: CategoryColor;
-        };
+    // =========================================
+    // CATEGORY ICONS
+    // =========================================
 
-        type Category = {
-            category: string;
-            categorySlug: string;
-            categoryDescription: string;
-            categoryColor?: CategoryColor;
-            icon: string;
-        };
+    const categoryIcons: Record<string, string> = {
+      "childhood-memories": "🧸",
+      "personal-interests": "🎨",
+      "first-experiences": "🌱",
+      "funny-random": "🎲",
+      "dreams-aspirations": "🌙",
+      "personality-habits": "🪞",
+      "love-relationships": "❤️",
+      "food-culinary": "🍜",
+      "travel-adventures": "✈️",
+      hypothetical: "💭",
+      "our-relationship": "💑",
+      "deep-talks": "💬",
+    };
 
-        const topics: Topic[] = JSON.parse(
-            document.getElementById("topics-data")?.textContent || "[]"
-        );
+    // =========================================
+    // ELEMENTS
+    // =========================================
 
-        const categories: Category[] = JSON.parse(
-            document.getElementById("categories-data")?.textContent || "[]"
-        );
+    const categorySection = document.getElementById("category-section")!;
+    const categoryGrid = document.getElementById("category-grid")!;
+    const cardSection = document.getElementById("card-section")!;
 
-        // =========================================
-        // CATEGORY ICONS
-        // =========================================
+    const selectedCategoryEl = document.getElementById("selected-category")!;
+    const categoryEl = document.getElementById("card-category")!;
+    const titleEl = document.getElementById("card-title")!;
+    const counterEl = document.getElementById("card-counter")!;
+    const questionCard = document.getElementById("question-card")!;
 
-        const categoryIcons: Record<string, string> = {
-            "childhood-memories": "🧸",
-            "personal-interests": "🎨",
-            "first-experiences": "🌱",
-            "funny-random": "🎲",
-            "dreams-aspirations": "🌙",
-            "personality-habits": "🪞",
-            "love-relationships": "❤️",
-            "food-culinary": "🍜",
-            "travel-adventures": "✈️",
-            "hypothetical": "💭",
-            "our-relationship": "💑",
-            "deep-talks": "💬"
-        };
+    const nextBtn = document.getElementById("next-btn")!;
+    const backBtn = document.getElementById("back-btn")!;
 
-        // =========================================
-        // ELEMENTS
-        // =========================================
+    // =========================================
+    // STATE
+    // =========================================
 
-        const categorySection = document.getElementById("category-section")!;
-        const categoryGrid = document.getElementById("category-grid")!;
-        const cardSection = document.getElementById("card-section")!;
+    let selectedCategory = "";
+    let deck: Topic[] = [];
+    let totalCards = 0;
+    let drawnCards = 0;
 
-        const selectedCategoryEl = document.getElementById("selected-category")!;
-        const categoryEl = document.getElementById("card-category")!;
-        const titleEl = document.getElementById("card-title")!;
-        const counterEl = document.getElementById("card-counter")!;
-        const questionCard = document.getElementById("question-card")!;
+    // =========================================
+    // SHUFFLE
+    // =========================================
 
-        const nextBtn = document.getElementById("next-btn")!;
-        const backBtn = document.getElementById("back-btn")!;
+    function shuffle(items: Topic[]): Topic[] {
+      const arr = [...items];
 
-        // =========================================
-        // STATE
-        // =========================================
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
 
-        let selectedCategory = "";
-        let deck: Topic[] = [];
-        let totalCards = 0;
-        let drawnCards = 0;
+      return arr;
+    }
 
-        // =========================================
-        // SHUFFLE
-        // =========================================
+    // =========================================
+    // APPLY CARD COLORS
+    // =========================================
 
-        function shuffle(items: Topic[]): Topic[] {
-            const arr = [...items];
+    function applyCardColors(color?: CategoryColor) {
+      const backgroundColor = color?.background ?? "#F3F4F6";
+      const foregroundColor = color?.foreground ?? "#374151";
 
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
+      questionCard.style.backgroundColor = backgroundColor;
+      questionCard.style.color = foregroundColor;
+      questionCard.style.borderColor = `${foregroundColor}30`;
+    }
 
-            return arr;
-        }
+    // =========================================
+    // RENDER CATEGORIES
+    // =========================================
 
-        // =========================================
-        // APPLY CARD COLORS
-        // =========================================
+    function renderCategories() {
+      categoryGrid.innerHTML = "";
 
-        function applyCardColors(color?: CategoryColor) {
-            const backgroundColor = color?.background ?? "#F3F4F6";
-            const foregroundColor = color?.foreground ?? "#374151";
+      // Semua kategori
+      const allCard = {
+        category: "Semua Kategori",
+        categorySlug: "all",
+        categoryDescription: "Jelajahi semua pertanyaan.",
+        categoryColor: {
+          background: "#E8EAF6",
+          foreground: "#5C6BC0",
+        },
+        icon: "✨",
+      };
 
-            questionCard.style.backgroundColor = backgroundColor;
-            questionCard.style.color = foregroundColor;
-            questionCard.style.borderColor = `${foregroundColor}30`;
-        }
+      const allCategories = [
+        allCard,
+        ...categories.map((category) => ({
+          ...category,
+          icon: categoryIcons[category.categorySlug] || "💬",
+        })),
+      ];
 
-        // =========================================
-        // RENDER CATEGORIES
-        // =========================================
+      allCategories.forEach((category) => {
+        const card = document.createElement("button");
 
-        function renderCategories() {
-            categoryGrid.innerHTML = "";
+        card.type = "button";
 
-            // Semua kategori
-            const allCard = {
-                category: "Semua Kategori",
-                categorySlug: "all",
-                categoryDescription: "Jelajahi semua pertanyaan.",
-                categoryColor: {
-                    background: "#E8EAF6",
-                    foreground: "#5C6BC0"
-                },
-                icon: "✨"
-            };
-
-            const allCategories = [
-                allCard,
-                ...categories.map(category => ({
-                    ...category,
-                    icon: categoryIcons[category.categorySlug] || "💬"
-                }))
-            ];
-
-            allCategories.forEach(category => {
-                const card = document.createElement("button");
-
-                card.type = "button";
-
-                card.className = `
+        card.className = `
                     flex flex-col items-start gap-3
                     rounded-2xl border
                     p-4 text-left
@@ -267,144 +291,142 @@ const categoriesJson = JSON.stringify(categories).replace(/</g, '\\u003c');
                     cursor-pointer
                 `;
 
-                const backgroundColor = category.categoryColor?.background ?? "#F3F4F6";
-                const foregroundColor = category.categoryColor?.foreground ?? "#374151";
+        const backgroundColor = category.categoryColor?.background ?? "#F3F4F6";
+        const foregroundColor = category.categoryColor?.foreground ?? "#374151";
 
-                card.style.backgroundColor = backgroundColor;
-                card.style.color = foregroundColor;
-                card.style.borderColor = `${foregroundColor}30`;
+        card.style.backgroundColor = backgroundColor;
+        card.style.color = foregroundColor;
+        card.style.borderColor = `${foregroundColor}30`;
 
-                const icon = document.createElement("span");
-                icon.className = "text-3xl";
-                icon.textContent = category.icon;
+        const icon = document.createElement("span");
+        icon.className = "text-3xl";
+        icon.textContent = category.icon;
 
-                const title = document.createElement("span");
-                title.className = "font-semibold text-sm";
-                title.textContent = category.category;
+        const title = document.createElement("span");
+        title.className = "font-semibold text-sm";
+        title.textContent = category.category;
 
-                const description = document.createElement("span");
-                description.className = "text-xs opacity-60";
-                description.textContent = category.categoryDescription;
+        const description = document.createElement("span");
+        description.className = "text-xs opacity-60";
+        description.textContent = category.categoryDescription;
 
-                card.append(icon, title, description);
+        card.append(icon, title, description);
 
-                card.addEventListener("click", () => {
-                    selectCategory(category.categorySlug);
-                });
+        card.addEventListener("click", () => {
+          selectCategory(category.categorySlug);
+        });
 
-                categoryGrid.appendChild(card);
-            });
-        }
+        categoryGrid.appendChild(card);
+      });
+    }
 
-        // =========================================
-        // SELECT CATEGORY
-        // =========================================
+    // =========================================
+    // SELECT CATEGORY
+    // =========================================
 
-        function selectCategory(categorySlug: string) {
-            selectedCategory = categorySlug;
+    function selectCategory(categorySlug: string) {
+      selectedCategory = categorySlug;
 
-            const filteredTopics = categorySlug === "all"
-                ? topics
-                : topics.filter(
-                    topic => topic.categorySlug === categorySlug
+      const filteredTopics =
+        categorySlug === "all"
+          ? topics
+          : topics.filter((topic) => topic.categorySlug === categorySlug);
+
+      if (filteredTopics.length === 0) {
+        alert("Belum ada pertanyaan dalam kategori ini.");
+        return;
+      }
+
+      deck = shuffle(filteredTopics);
+
+      totalCards = deck.length;
+      drawnCards = 0;
+
+      const category = categories.find(
+        (item) => item.categorySlug === categorySlug,
+      );
+
+      // Terapkan warna kategori
+      applyCardColors(category?.categoryColor);
+
+      selectedCategoryEl.textContent =
+        categorySlug === "all" ? "Semua Kategori" : category?.category || "";
+
+      categorySection.classList.add("hidden");
+      cardSection.classList.remove("hidden");
+
+      categoryEl.textContent = "";
+      titleEl.textContent = "Tekan tombol untuk mulai";
+      counterEl.textContent = `${totalCards} kartu tersedia`;
+
+      nextBtn.textContent = "Ambil Kartu Berikutnya";
+    }
+
+    // =========================================
+    // NEXT CARD
+    // =========================================
+
+    function nextCard() {
+      if (deck.length === 0) {
+        if (drawnCards === totalCards) {
+          const shouldRestart = confirm(
+            "Semua kartu sudah dimainkan. Acak kembali?",
+          );
+
+          if (!shouldRestart) return;
+
+          const filteredTopics =
+            selectedCategory === "all"
+              ? topics
+              : topics.filter(
+                  (topic) => topic.categorySlug === selectedCategory,
                 );
 
-            if (filteredTopics.length === 0) {
-                alert("Belum ada pertanyaan dalam kategori ini.");
-                return;
-            }
-
-            deck = shuffle(filteredTopics);
-
-            totalCards = deck.length;
-            drawnCards = 0;
-
-            const category = categories.find(
-                item => item.categorySlug === categorySlug
-            );
-
-            // Terapkan warna kategori
-            applyCardColors(category?.categoryColor);
-
-            selectedCategoryEl.textContent = categorySlug === "all"
-                ? "Semua Kategori"
-                : category?.category || "";
-
-            categorySection.classList.add("hidden");
-            cardSection.classList.remove("hidden");
-
-            categoryEl.textContent = "";
-            titleEl.textContent = "Tekan tombol untuk mulai";
-            counterEl.textContent = `${totalCards} kartu tersedia`;
-
-            nextBtn.textContent = "Ambil Kartu Berikutnya";
+          deck = shuffle(filteredTopics);
+          drawnCards = 0;
+        } else {
+          return;
         }
+      }
 
-        // =========================================
-        // NEXT CARD
-        // =========================================
+      const card = deck.pop()!;
 
-        function nextCard() {
-            if (deck.length === 0) {
-                if (drawnCards === totalCards) {
-                    const shouldRestart = confirm(
-                        "Semua kartu sudah dimainkan. Acak kembali?"
-                    );
+      drawnCards++;
 
-                    if (!shouldRestart) return;
+      // Terapkan warna berdasarkan kategori pertanyaan
+      applyCardColors(card.categoryColor);
 
-                    const filteredTopics = selectedCategory === "all"
-                        ? topics
-                        : topics.filter(
-                            topic => topic.categorySlug === selectedCategory
-                        );
+      categoryEl.textContent = card.category;
+      titleEl.textContent = card.title;
 
-                    deck = shuffle(filteredTopics);
-                    drawnCards = 0;
-                } else {
-                    return;
-                }
-            }
+      counterEl.textContent = `${drawnCards} dari ${totalCards} kartu`;
 
-            const card = deck.pop()!;
+      if (deck.length === 0) {
+        nextBtn.textContent = "Acak Ulang Kartu";
+      }
+    }
 
-            drawnCards++;
+    // =========================================
+    // BACK TO CATEGORIES
+    // =========================================
 
-            // Terapkan warna berdasarkan kategori pertanyaan
-            applyCardColors(card.categoryColor);
+    function backToCategories() {
+      selectedCategory = "";
+      deck = [];
+      totalCards = 0;
+      drawnCards = 0;
 
-            categoryEl.textContent = card.category;
-            titleEl.textContent = card.title;
+      cardSection.classList.add("hidden");
+      categorySection.classList.remove("hidden");
+    }
 
-            counterEl.textContent =
-                `${drawnCards} dari ${totalCards} kartu`;
+    // =========================================
+    // EVENTS
+    // =========================================
 
-            if (deck.length === 0) {
-                nextBtn.textContent = "Acak Ulang Kartu";
-            }
-        }
+    nextBtn.addEventListener("click", nextCard);
+    backBtn.addEventListener("click", backToCategories);
 
-        // =========================================
-        // BACK TO CATEGORIES
-        // =========================================
-
-        function backToCategories() {
-            selectedCategory = "";
-            deck = [];
-            totalCards = 0;
-            drawnCards = 0;
-
-            cardSection.classList.add("hidden");
-            categorySection.classList.remove("hidden");
-        }
-
-        // =========================================
-        // EVENTS
-        // =========================================
-
-        nextBtn.addEventListener("click", nextCard);
-        backBtn.addEventListener("click", backToCategories);
-
-        renderCategories();
-    </script>
+    renderCategories();
+  </script>
 </Layout>
