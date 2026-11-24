@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 ---
 
-<Layout title="Elza's Birthday" header="minimal">
+<Layout title="Elza's Birthday" header="none" showFooter={false}>
   <main class="birthday-page">
     <!-- Decorative background -->
     <div class="background-glow glow-one"></div>
@@ -19,23 +19,24 @@ import Layout from "../../layouts/Layout.astro";
     <section class="birthday-content">
       <div class="top-label">
         <span class="label-line"></span>
-        <span>A LITTLE SOMETHING FOR YOU</span>
+        <span>SOMETHING SPECIAL IS ON ITS WAY</span>
         <span class="label-line"></span>
       </div>
 
       <div class="heart-icon">♡</div>
 
       <h1>
-        Happy Birthday,
-        <span>Elza.</span>
+        Something Beautiful
+        <span>Is Coming.</span>
       </h1>
 
       <p class="subtitle">
-        Another beautiful chapter of your life is about to begin.
+        A special day is getting closer, and someone deserves all the happiness
+        in the world.
       </p>
 
       <div class="countdown-wrapper">
-        <p class="countdown-heading">THE COUNTDOWN BEGINS</p>
+        <p class="countdown-heading">UNTIL YOUR SPECIAL DAY</p>
 
         <div class="countdown-grid">
           <div class="countdown-card">
@@ -69,7 +70,7 @@ import Layout from "../../layouts/Layout.astro";
       </div>
 
       <p class="birthday-message" id="countdown-message">
-        Counting every second until your special day ♡
+        Every second makes this day a little closer ♡
       </p>
 
       <div class="bottom-decoration">
