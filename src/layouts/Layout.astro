@@ -3,20 +3,22 @@ import "../styles/global.css";
 import "../styles/logos.css";
 import Header from "../components/layout/Header.astro";
 import MinimalHeader from "../components/layout/MinimalHeader.astro";
+import NoHeader from "../components/layout/NoHeader.astro";
 import Footer from "../components/layout/Footer.astro";
+import NoFooter from "../components/layout/NoFooter.astro";
 
 export interface Props {
   title: string;
   description?: string;
-  header?: "default" | "minimal";
+  header?: "default" | "minimal" | "none";
   showFooter?: boolean;
 }
 
-const { 
+const {
   title = "Default Title",
   description,
   header = "default",
-  showFooter = true
+  showFooter = true,
 } = Astro.props;
 ---
 
@@ -33,8 +35,10 @@ const {
   <body>
     {header === "default" && <Header />}
     {header === "minimal" && <MinimalHeader />}
+    {header === "none" && <NoHeader />}
     <slot />
     {showFooter && <Footer />}
+    {!showFooter && <NoFooter />}
   </body>
 </html>
 
